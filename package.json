@@ -1,7 +1,7 @@
 {
   "name": "jsonparser",
   "version": "0.0.2",
-  "description": "A Simple Body Parser for express with default encoding set to utf-8",
+  "description": "A JSON Parser for node http server",
   "main": "index.js",
   "scripts": {
     "test": "grunt test"
