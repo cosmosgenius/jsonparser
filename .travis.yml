@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- '0.10'
+- '0.11'
+before_install: npm install -g grunt-cli
+install: npm install
+deploy:
+  provider: npm
+  email: cosmosgenius@gmail.com
+  api_key:
+    secure: KCjObD7wkYT+iYYYQbN1dJ1mak1MLkYg/CHE1ECGZfgeA3rGfl+w0/ZZvV4gy3njaXALfXJwCd3bFh49fTRMjhbnXSFozJG7Zu6NPtnBeqPMeWB3AcwKOrtBpsJne3gkQUCQZZVEIbsaG4Xbqw03KUuqH2xBgwLmfMoYnTWmnOg=
+  on:
+    tags: true
+    repo: cosmosgenius/jsonparser
+    all_branches: true
