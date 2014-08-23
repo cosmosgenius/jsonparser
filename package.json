@@ -36,5 +36,8 @@
     "travis-cov": {
       "threshold": 100
     }
+  },
+  "dependencies": {
+    "simple-bodyparser": "0.0.x"
   }
 }
