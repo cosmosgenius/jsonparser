@@ -10,7 +10,7 @@ function req(type,body){
     return {
         headers: {
             'content-type': type || '',
-            'transfer-encoding': 'chunked'
+            'content-length' : body ? body.length : 0
         },
         body : body || null
     };
@@ -77,18 +77,29 @@ describe('jsonparser non-strict', function(){
 
 describe('jsonparser strict', function(){
     before(function(){
-        jsonparserInstance = jsonparser({strictContentType: true});
+        jsonparserInstance = jsonparser({strict: true});
     });
     
     it('should fail if content type is not json with 415 status code',function(done){
-        jsonparserInstance(req('text/*'),null,function(err){
+        var json = {hello:'world'};
+        var validJson = JSON.stringify(json);
+        jsonparserInstance(req('text/*',validJson),null,function(err){
             err.status.should.eql(415);
             should.exist(err.message);
             done();
         });
     });
+
+    it('should fail if content type is json and empty body with 400 status code',function(done){
+        var re = req('application/json');
+        jsonparserInstance(re,null,function(err){
+            err.status.should.eql(400);
+            should.exist(err.message);
+            done();
+        });
+    });
     
-    it('should pass if content type is json', function(done){
+    it('should pass if content type is json and has body', function(done){
         var json = {hello:'world'};
         var validJson = JSON.stringify(json);
         var reqObj = req('application/json',validJson);
@@ -97,6 +108,17 @@ describe('jsonparser strict', function(){
                 return done(err);
             }
             reqObj.json.should.eql(json);
+            done();
+        });
+    });
+
+    it('should pass if content type is json with transfer-encoding as chunked and empty body', function(done){
+        var reqObj = req('application/json');
+        reqObj.headers['transfer-encoding'] = 'chunked';
+        jsonparserInstance(reqObj, null, function(err){
+            if(err) {
+                return done(err);
+            }
             done();
         });
     });

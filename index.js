@@ -33,10 +33,6 @@ var messages = {
     if (!length) {
         return false;
     }
-    // no idea when this would happen, but `isNaN(null) === false`
-    if (isNaN(length)) {
-        return false;
-    }
     return !!parseInt(length, 10);
 }
 
@@ -50,6 +46,7 @@ module.exports = function(options) {
         if(strict){
             if(!hasbody(req)) {
                 err = new Error(messages.emptyBody);
+                err.status = 400;
                 return next(err);
             }
 
@@ -60,15 +57,14 @@ module.exports = function(options) {
                 return next(err);    
             }
         }
-        
+
         try {
             req.json = JSON.parse(req.body);
-            return next();
         } catch (e) {
             err = new Error(messages.parseError);
             err.status = 400;
-            next(err);
+            return next(err);
         }
-
+        next();
     };
 };
