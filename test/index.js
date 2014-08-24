@@ -4,39 +4,23 @@
 'use strict';
 
 var jsonparser = require('../'),
-    request = require('supertest'),
-    bodyparser = require('simple-bodyparser'),
-    http = require('http'),
     should = require('should');
 
-var server;
-
-function createServer(){
-    var _parser = jsonparser();
-    var _bodyparser = bodyparser();
-
-    return http.createServer(function(req, res){
-        _bodyparser(req, res, function(err){
-            if (err) {
-                res.statusCode = err.status;
-                res.end(err.message);
-                return;
-            }
-            _parser(req, res, function(err){
-                if (err) {
-                    res.statusCode = err.status;
-                    res.end(err.message);
-                    return;
-                }
-                res.end(JSON.stringify(req.json));
-            });
-        });
-    });
+function req(type,body){
+    return {
+        headers: {
+            'content-type': type || '',
+            'transfer-encoding': 'chunked'
+        },
+        body : body || null
+    };
 }
+
+var jsonparserInstance;
 
 describe('jsonparser', function() {
     before(function(){
-        server = createServer();
+        jsonparserInstance = jsonparser(); 
     });
 
     it('should exist', function() {
@@ -47,14 +31,75 @@ describe('jsonparser', function() {
         jsonparser().should.be.a.Function;
     });
 
-    it('should neglect content type if strictContentType is false');
+    it('should fail if invalid json data with status code 400', function(done){
+        var json = {hello:'world'};
+        var invalidJson = JSON.stringify(json) + '[]';
+        var reqObj = req('application/json',invalidJson);
+        jsonparserInstance(reqObj, null, function(err){
+            should.exist(err);
+            err.status.should.eql(400);
+            should.exist(err.message);
+            done();
+        });
+    });
 
-    it('should fail if content type is not json and strictContentType is true');
-    
-    it('should pass if content type is json and strictContentType is true');
-
-    it('should fail if invalid json data');
-
-    it('should pass for valid json data');
+    it('should pass for valid json data', function(done){
+        var json = {hello:'world'};
+        var validJson = JSON.stringify(json);
+        var reqObj = req('application/json',validJson);
+        jsonparserInstance(reqObj, null, function(err){
+            if(err) {
+                return done(err);
+            }
+            reqObj.json.should.eql(json);
+            done();
+        });
+    });
 });
+
+describe('jsonparser non-strict', function(){
+    before(function(){
+        jsonparserInstance = jsonparser();
+    });
+    it('should neglect content type', function(done){
+        var json = {hello:'world'};
+        var validJson = JSON.stringify(json);
+        var reqObj = req('formdata',validJson);
+        jsonparserInstance(reqObj, null, function(err){
+            if(err) {
+                return done(err);
+            }
+            reqObj.json.should.eql(json);
+            done();
+        });
+    });    
+});
+
+describe('jsonparser strict', function(){
+    before(function(){
+        jsonparserInstance = jsonparser({strictContentType: true});
+    });
+    
+    it('should fail if content type is not json with 415 status code',function(done){
+        jsonparserInstance(req('text/*'),null,function(err){
+            err.status.should.eql(415);
+            should.exist(err.message);
+            done();
+        });
+    });
+    
+    it('should pass if content type is json', function(done){
+        var json = {hello:'world'};
+        var validJson = JSON.stringify(json);
+        var reqObj = req('application/json',validJson);
+        jsonparserInstance(reqObj, null, function(err){
+            if(err) {
+                return done(err);
+            }
+            reqObj.json.should.eql(json);
+            done();
+        });
+    });
+});
+
 
