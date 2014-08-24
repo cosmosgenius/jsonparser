@@ -4,13 +4,13 @@ node_js:
 - '0.11'
 before_install: npm install -g grunt-cli
 install: npm install
+after_script: npm install coveralls && cat ./lcov.info | coveralls
 deploy:
   provider: npm
   email: cosmosgenius@gmail.com
   api_key:
-    secure: KCjObD7wkYT+iYYYQbN1dJ1mak1MLkYg/CHE1ECGZfgeA3rGfl+w0/ZZvV4gy3njaXALfXJwCd3bFh49fTRMjhbnXSFozJG7Zu6NPtnBeqPMeWB3AcwKOrtBpsJne3gkQUCQZZVEIbsaG4Xbqw03KUuqH2xBgwLmfMoYnTWmnOg=
+    secure: HoLWuKmAVj6eUUpyBl8bHKd3twx7PBAjhfhiSs7C3Wt0P4KWCZLaFM75IHHwvvjdpzdNTNJZNp0MBILgwhhRt2Ru30XirHMfxUsw6+d83v0Rp8FQAz4Ut7taP5jyQxJTTQxugO1xhpO2GgSe54huKiYzi4YN16HWDtmujcCvCho=
   on:
     tags: true
     repo: cosmosgenius/jsonparser
     all_branches: true
-after_script: "npm install coveralls && cat ./lcov.info | coveralls"
