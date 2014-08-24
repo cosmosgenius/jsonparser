@@ -38,6 +38,7 @@
     }
   },
   "dependencies": {
-    "simple-bodyparser": "0.0.x"
+    "simple-bodyparser": "0.0.x",
+    "type-is": "^1.3.2"
   }
 }
