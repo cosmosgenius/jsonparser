@@ -13,3 +13,4 @@ deploy:
     tags: true
     repo: cosmosgenius/jsonparser
     all_branches: true
+after_script: "npm install coveralls && cat ./lcov.info | coveralls"

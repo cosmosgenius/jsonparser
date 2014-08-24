@@ -28,8 +28,9 @@
     "grunt": "*",
     "grunt-mocha-test": "*",
     "mocha": "*",
+    "mocha-lcov-reporter": "*",
     "should": "*",
-    "supertest": "^0.13.0",
+    "supertest": "*",
     "travis-cov": "*"
   },
   "config": {
