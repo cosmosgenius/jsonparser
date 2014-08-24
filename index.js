@@ -12,6 +12,11 @@ module.exports = function(options) {
             return;
         }
         
-        
+        try {
+            req.json = JSON.parse(req.body);
+            return next();
+        } catch (e) {
+
+        }
     };
 };
