@@ -2,6 +2,7 @@
 
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
+[![Dependency Status][david-image]][david-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
@@ -58,3 +59,5 @@ app.use(function(req, res, next){
 [license-url]: LICENSE
 [downloads-image]: http://img.shields.io/npm/dm/jsonparser.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/jsonparser
+[david-image]: http://img.shields.io/david/cosmosgenius/jsonparser.svg?style=flat-square
+[david-url]: https://david-dm.org/cosmosgenius/jsonparser
