@@ -26,8 +26,9 @@ var jsonparser = require('jsonparser');
 This middleware adds a `req.json` property which contains the JSON parsed request body
 
 #### Options
-- `strict` a truthy value to check for content type header and empty body.
-- `type` request content-type to parse (default: json)
+- `strict` a truthy value to check for content type header (default: false).
+- `type` request content-type to parse (default: json).
+- `bodyCheck` a truthy value for empty body check (default: false).
 
 ## Example
 

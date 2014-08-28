@@ -89,17 +89,8 @@ describe('jsonparser strict', function(){
             done();
         });
     });
-
-    it('should fail if content type is json and empty body with 400 status code',function(done){
-        var re = req('application/json');
-        jsonparserInstance(re,null,function(err){
-            err.status.should.eql(400);
-            should.exist(err.message);
-            done();
-        });
-    });
     
-    it('should pass if content type is json and has body', function(done){
+    it('should pass if content type is json and is valid', function(done){
         var json = {hello:'world'};
         var validJson = JSON.stringify(json);
         var reqObj = req('application/json',validJson);
@@ -113,4 +104,47 @@ describe('jsonparser strict', function(){
     });
 });
 
+describe('jsonparser non-bodyCheck', function(){
+    before(function(){
+        jsonparserInstance = jsonparser();
+    });
+    
+    it('should pass if body is not there', function(done){
+        var reqObj = req('application/json');
+        jsonparserInstance(reqObj, null, function(err){
+            if(err) {
+                return done(err);
+            }
+            should.not.exist(reqObj.json);
+            done();
+        });
+    });
+});
 
+describe('jsonparser bodyCheck', function(){
+    before(function(){
+        jsonparserInstance = jsonparser({bodyCheck:true});
+    });
+
+    it('should pass if body is not preset', function(done){
+        var reqObj = req('application/json');
+        jsonparserInstance(reqObj, null, function(err){
+            err.status.should.eql(400);
+            should.exist(err.message);
+            done();
+        });
+    });
+    
+    it('should pass if body is a validJson', function(done){
+        var json = {hello:'world'};
+        var validJson = JSON.stringify(json);
+        var reqObj = req('application/json',validJson);
+        jsonparserInstance(reqObj, null, function(err){
+            if(err) {
+                return done(err);
+            }
+            reqObj.json.should.eql(json);
+            done();
+        });
+    });
+});
