@@ -10,14 +10,11 @@ var util = require("util");
 var messages = {
     "contentType" : "Unexpected Content-Type '%s', expecting 'application/json'.",
     "parseError": "Problems parsing JSON",
-    "emptyBody" : "Request body cannot be empty"
+    "emptyBody" : "Request body is empty"
 };
 
 /**
  * Check if a request has a request body.
- * A request with a body __must__ either have `transfer-encoding`
- * or `content-length` headers set.
- * http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.3
  *
  * @param {Object} request
  * @return {Boolean}
@@ -31,23 +28,23 @@ var messages = {
 module.exports = function(options) {
     options = options || {};
     var strict = !!options.strict;
+    var emptyBodyCheck = !!options.bodyCheck;
     var type = options.type || "json";
 
     return function(req, res, next) {
         var err;
-        if(strict){
-            if(!hasbody(req)) {
+        
+        if(strict && !is(req, type)) {
+            var msg = util.format(messages.contentType,req.headers["content-type"]);
+            err = new Error(msg);
+            err.status = 415;
+            return next(err);    
+        }
+
+        if(emptyBodyCheck && !hasbody(req)) {
                 err = new Error(messages.emptyBody);
                 err.status = 400;
                 return next(err);
-            }
-
-            if(!is(req, type)) {
-                var msg = util.format(messages.contentType,req.headers["content-type"]);
-                err = new Error(msg);
-                err.status = 415;
-                return next(err);    
-            }
         }
 
         try {
