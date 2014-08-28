@@ -25,15 +25,7 @@ var messages = {
  */
 
  function hasbody(req) {
-    var headers = req.headers;
-    if ("transfer-encoding" in headers) {
-        return true;
-    }
-    var length = headers["content-length"];
-    if (!length) {
-        return false;
-    }
-    return !!parseInt(length, 10);
+    return !!req.body;
 }
 
 module.exports = function(options) {

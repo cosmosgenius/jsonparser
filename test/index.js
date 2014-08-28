@@ -111,17 +111,6 @@ describe('jsonparser strict', function(){
             done();
         });
     });
-
-    it('should pass if content type is json with transfer-encoding as chunked and empty body', function(done){
-        var reqObj = req('application/json');
-        reqObj.headers['transfer-encoding'] = 'chunked';
-        jsonparserInstance(reqObj, null, function(err){
-            if(err) {
-                return done(err);
-            }
-            done();
-        });
-    });
 });
 
 
