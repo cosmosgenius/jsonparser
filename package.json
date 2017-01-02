@@ -1,6 +1,6 @@
 {
   "name": "jsonparser",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "A JSON Parser for node http server",
   "main": "index.js",
   "typings": "index.d.ts",
