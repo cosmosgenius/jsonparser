@@ -1,16 +1,16 @@
 language: node_js
 node_js:
-- '0.10'
-- '0.11'
-before_install: npm install -g grunt-cli
-install: npm install
-after_script: npm install coveralls && cat ./lcov.info | coveralls
+- '4'
+- '6'
+- node
 deploy:
   provider: npm
   email: cosmosgenius@gmail.com
   api_key:
-    secure: HoLWuKmAVj6eUUpyBl8bHKd3twx7PBAjhfhiSs7C3Wt0P4KWCZLaFM75IHHwvvjdpzdNTNJZNp0MBILgwhhRt2Ru30XirHMfxUsw6+d83v0Rp8FQAz4Ut7taP5jyQxJTTQxugO1xhpO2GgSe54huKiYzi4YN16HWDtmujcCvCho=
+    secure: HCn9ySDxARh8M8rrF608e+bkk+buCK2kYB5BwB7pj6+5zDGhA5ZoUdKRzepIRJqp9IET6E6LA3deW0/5fJ1JFYVOVWNGjW/i7QumspnYb/gP5TZW8pwgrl1admfZk3uZb4n5mYX/xB0FWkX+G2DIUFja6YUSXkbC+g9GTrt+Yvg=
   on:
     tags: true
     repo: cosmosgenius/jsonparser
-    all_branches: true
+    branch: master
+after_success:
+- bash <(curl -s https://codecov.io/bash)
