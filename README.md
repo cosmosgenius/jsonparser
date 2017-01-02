@@ -3,7 +3,7 @@
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Dependency Status][david-image]][david-url]
-[![Test coverage][coveralls-image]][coveralls-url]
+[![Test coverage][coverage-image]][coverage-url]
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
@@ -18,7 +18,7 @@ $ npm install jsonparser
 ## API
 
 ```js
-var jsonparser = require('jsonparser');
+const jsonparser = require('jsonparser');
 ```
 
 ### jsonparser(options)
@@ -33,14 +33,14 @@ This middleware adds a `req.json` property which contains the JSON parsed reques
 ## Example
 
 ```js
-var bodyparser = require('simple-bodyparser');
-var jsonparser = require('jsonparser');
-var app = require('express')();
+const bodyparser = require('simple-bodyparser');
+const jsonparser = require('jsonparser');
+const app = require('express')();
 
 app.use(bodyparser());
 app.use(jsonparser());
 app.use(function(req, res, next){
-  var body = req.json
+    let body = req.json
 });
 ```
 
@@ -55,8 +55,8 @@ app.use(function(req, res, next){
 [github-url]: https://github.com/cosmosgenius/jsonparser/tags
 [travis-image]: https://img.shields.io/travis/cosmosgenius/jsonparser.svg?style=flat-square
 [travis-url]: https://travis-ci.org/cosmosgenius/jsonparser
-[coveralls-image]: https://img.shields.io/coveralls/cosmosgenius/jsonparser.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/cosmosgenius/jsonparser?branch=master
+[coverage-image]: https://codecov.io/gh/cosmosgenius/jsonparser/branch/master/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/cosmosgenius/jsonparser
 [license-image]: http://img.shields.io/npm/l/jsonparser.svg?style=flat-square
 [license-url]: LICENSE
 [downloads-image]: http://img.shields.io/npm/dm/jsonparser.svg?style=flat-square
