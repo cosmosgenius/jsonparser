@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/cosmosgenius/jsonparser",
   "jest": {
-      "testEnvironment": "node",
-      "collectCoverage": true
+    "testEnvironment": "node",
+    "collectCoverage": true
   },
   "devDependencies": {
     "eslint": "^3.12.2",
