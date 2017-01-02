@@ -1,16 +1,14 @@
-/*jslint node: true */
-"use strict";
-var is   = require("type-is");
-var util = require("util");
+const util = require('util');
+const is   = require('type-is');
 
 /**
  * Messages to be used
  * @type {Object}
  */
-var messages = {
-    "contentType" : "Unexpected Content-Type '%s', expecting 'application/json'.",
-    "parseError": "Problems parsing JSON",
-    "emptyBody" : "Request body is empty"
+const messages = {
+    'contentType' : 'Unexpected Content-Type "%s", expecting "application/json".',
+    'parseError': 'Problems parsing JSON',
+    'emptyBody' : 'Request body is empty'
 };
 
 /**
@@ -21,7 +19,7 @@ var messages = {
  * @api public
  */
 
- function hasbody(req) {
+function hasbody(req) {
     return !!req.body;
 }
 
@@ -29,22 +27,22 @@ module.exports = function(options) {
     options = options || {};
     var strict = !!options.strict;
     var emptyBodyCheck = !!options.bodyCheck;
-    var type = options.type || "json";
+    var type = options.type || 'json';
 
     return function(req, res, next) {
         var err;
-        
+
         if(strict && !is(req, type)) {
-            var msg = util.format(messages.contentType,req.headers["content-type"]);
+            var msg = util.format(messages.contentType, req.headers['content-type']);
             err = new Error(msg);
             err.status = 415;
-            return next(err);    
+            return next(err);
         }
 
         if(emptyBodyCheck && !hasbody(req)) {
-                err = new Error(messages.emptyBody);
-                err.status = 400;
-                return next(err);
+            err = new Error(messages.emptyBody);
+            err.status = 400;
+            return next(err);
         }
 
         try {
