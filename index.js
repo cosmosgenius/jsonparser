@@ -25,15 +25,15 @@ function hasbody(req) {
 
 module.exports = function(options) {
     options = options || {};
-    var strict = !!options.strict;
-    var emptyBodyCheck = !!options.bodyCheck;
-    var type = options.type || 'json';
+    const strict = !!options.strict;
+    const emptyBodyCheck = !!options.bodyCheck;
+    const type = options.type || 'json';
 
     return function(req, res, next) {
         var err;
 
         if(strict && !is(req, type)) {
-            var msg = util.format(messages.contentType, req.headers['content-type']);
+            const msg = util.format(messages.contentType, req.headers['content-type']);
             err = new Error(msg);
             err.status = 415;
             return next(err);
