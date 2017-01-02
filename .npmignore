@@ -1,7 +1,8 @@
 .travis.yml
 .gitattributes
+.gitignore
+.eslintrc.json
+.editorconfig
+yarn.lock
+test.js
 coverage
-coverage.html
-lcov.info
-Gruntfile.js
-test
