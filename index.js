@@ -1,14 +1,14 @@
 const util = require('util');
-const is   = require('type-is');
+const is = require('type-is');
 
 /**
  * Messages to be used
  * @type {Object}
  */
 const messages = {
-    'contentType' : 'Unexpected Content-Type "%s", expecting "application/json".',
+    'contentType': 'Unexpected Content-Type "%s", expecting "application/json".',
     'parseError': 'Problems parsing JSON',
-    'emptyBody' : 'Request body is empty'
+    'emptyBody': 'Request body is empty'
 };
 
 /**
@@ -18,33 +18,24 @@ const messages = {
  * @return {Boolean}
  * @api public
  */
-
 function hasbody(req) {
     return !!req.body;
 }
 
-module.exports = function(options) {
-    options = options || {};
-    const strict = !!options.strict;
-    const emptyBodyCheck = !!options.bodyCheck;
-    const type = options.type || 'json';
-
-    return function(req, res, next) {
+function jsonparser({ strict = false, bodyCheck = false, type = 'json' } = {}) {
+    return function (req, res, next) {
         var err;
-
-        if(strict && !is(req, type)) {
+        if (strict && !is(req, type)) {
             const msg = util.format(messages.contentType, req.headers['content-type']);
             err = new Error(msg);
             err.status = 415;
             return next(err);
         }
-
-        if(emptyBodyCheck && !hasbody(req)) {
+        if (bodyCheck && !hasbody(req)) {
             err = new Error(messages.emptyBody);
             err.status = 400;
             return next(err);
         }
-
         try {
             req.json = JSON.parse(req.body);
         } catch (e) {
@@ -54,4 +45,6 @@ module.exports = function(options) {
         }
         next();
     };
-};
+}
+
+module.exports = jsonparser;

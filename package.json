@@ -3,8 +3,10 @@
   "version": "0.3.0",
   "description": "A JSON Parser for node http server",
   "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc index.ts"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,9 @@
   ],
   "author": "Sharat M R",
   "license": "MIT",
+  "engines": {
+    "node": ">= 6"
+  },
   "bugs": {
     "url": "https://github.com/cosmosgenius/jsonparser/issues"
   },
@@ -28,8 +33,10 @@
     "collectCoverage": true
   },
   "devDependencies": {
+    "@types/node": "^6.0.55",
     "eslint": "^3.12.2",
-    "jest": "^18.1.0"
+    "jest": "^18.1.0",
+    "typescript": "^2.1.4"
   },
   "dependencies": {
     "type-is": "^1.6.14"

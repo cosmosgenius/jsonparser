@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "moduleResolution": "node",
+        "declaration": true,
+        "types": ["node"],
+        "noImplicitAny": true,
+        "noImplicitUseStrict": true,
+        "sourceMap": false,
+        "allowSyntheticDefaultImports": true
+    }
+}
