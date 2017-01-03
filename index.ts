@@ -1,4 +1,6 @@
+declare const is:any;
 import * as http from 'http';
+import * as express from 'express';
 import * as util from 'util';
 import * as is from 'type-is';
 
@@ -20,27 +22,31 @@ const messages = {
  * @api public
  */
 
-function hasbody(req: JsonParserRequest) {
+function hasbody(req: express.Request) {
     return !!req.body;
 }
 
-export interface JsonParserOptions {
-    strict?: Boolean,
-    bodyCheck?: Boolean,
-    type?: String
+declare namespace jsonparser {
+    export interface JsonParserOptions {
+        strict?: Boolean,
+        bodyCheck?: Boolean,
+        type?: String
+    }
 }
 
-export interface JsonParserRequest extends http.ServerRequest {
-    json: Object,
-    body: string
+declare module "express" {
+    interface Request {
+        json: Object,
+        body: string
+    }
 }
 
-export interface JsonParserError extends Error {
+interface JsonParserError extends Error {
     status: Number
 }
 
-function jsonparser({ strict=false, bodyCheck=false, type='json'}: JsonParserOptions = {}) {
-    return function(req: JsonParserRequest, res: http.ServerResponse, next: Function): void {
+function jsonparser({ strict=false, bodyCheck=false, type='json'}: jsonparser.JsonParserOptions = {}) {
+    return <express.RequestHandler>function (req: express.Request, res, next): any {
         var err: JsonParserError;
 
         if(strict && !is(req, type)) {
